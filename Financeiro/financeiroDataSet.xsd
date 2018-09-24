@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="financeiroDataSet" targetNamespace="http://tempuri.org/financeiroDataSet.xsd" xmlns:mstns="http://tempuri.org/financeiroDataSet.xsd" xmlns="http://tempuri.org/financeiroDataSet.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="financeiroConnection" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="financeiroConnection (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.Financeiro.Properties.Settings.GlobalReference.Default.financeiroConnection" Provider="MySql.Data.MySqlClient" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="catagoriaTableAdapter" GeneratorDataComponentClassName="catagoriaTableAdapter" Name="catagoria" UserDataComponentName="catagoriaTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="financeiroConnection (Settings)" DbObjectName="financeiro_v2.catagoria" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="true" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT desc_id, descricao, transacaoTipo, showOnDash FROM catagoria</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings />
+            <Sources />
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="formaspagamentoTableAdapter" GeneratorDataComponentClassName="formaspagamentoTableAdapter" Name="formaspagamento" UserDataComponentName="formaspagamentoTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="financeiroConnection (Settings)" DbObjectName="financeiro_v2.formaspagamento" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="true" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT formaPag_id, formaPag, showOnDash FROM formaspagamento</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings />
+            <Sources />
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="transacoesTableAdapter" GeneratorDataComponentClassName="transacoesTableAdapter" Name="transacoes" UserDataComponentName="transacoesTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="financeiroConnection (Settings)" DbObjectName="financeiro_v2.transacoes" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="true" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT transacao_id, transacaoTipo, valor, dataPagamento, data, descTransacao, nParcela, totalParcelas, observacoes, formaPagamento_id FROM transacoes</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings />
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="financeiroDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="True" msprop:Generator_DataSetName="financeiroDataSet" msprop:Generator_UserDSName="financeiroDataSet">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="catagoria" msprop:Generator_TableClassName="catagoriaDataTable" msprop:Generator_TableVarName="tablecatagoria" msprop:Generator_TablePropName="catagoria" msprop:Generator_RowDeletingName="catagoriaRowDeleting" msprop:Generator_RowChangingName="catagoriaRowChanging" msprop:Generator_RowEvHandlerName="catagoriaRowChangeEventHandler" msprop:Generator_RowDeletedName="catagoriaRowDeleted" msprop:Generator_UserTableName="catagoria" msprop:Generator_RowChangedName="catagoriaRowChanged" msprop:Generator_RowEvArgName="catagoriaRowChangeEvent" msprop:Generator_RowClassName="catagoriaRow">
+          <xs:complexType>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="formaspagamento" msprop:Generator_TableClassName="formaspagamentoDataTable" msprop:Generator_TableVarName="tableformaspagamento" msprop:Generator_TablePropName="formaspagamento" msprop:Generator_RowDeletingName="formaspagamentoRowDeleting" msprop:Generator_RowChangingName="formaspagamentoRowChanging" msprop:Generator_RowEvHandlerName="formaspagamentoRowChangeEventHandler" msprop:Generator_RowDeletedName="formaspagamentoRowDeleted" msprop:Generator_UserTableName="formaspagamento" msprop:Generator_RowChangedName="formaspagamentoRowChanged" msprop:Generator_RowEvArgName="formaspagamentoRowChangeEvent" msprop:Generator_RowClassName="formaspagamentoRow">
+          <xs:complexType>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="transacoes" msprop:Generator_TableClassName="transacoesDataTable" msprop:Generator_TableVarName="tabletransacoes" msprop:Generator_TablePropName="transacoes" msprop:Generator_RowDeletingName="transacoesRowDeleting" msprop:Generator_RowChangingName="transacoesRowChanging" msprop:Generator_RowEvHandlerName="transacoesRowChangeEventHandler" msprop:Generator_RowDeletedName="transacoesRowDeleted" msprop:Generator_UserTableName="transacoes" msprop:Generator_RowChangedName="transacoesRowChanged" msprop:Generator_RowEvArgName="transacoesRowChangeEvent" msprop:Generator_RowClassName="transacoesRow">
+          <xs:complexType>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
