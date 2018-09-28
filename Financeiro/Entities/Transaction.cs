@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Financeiro.Entities
 {
-    class Transaction
+    public class Transaction
     {
         public int Transaction_Id { set; get; }
         public Operation Operation { set; get; }
@@ -14,12 +14,12 @@ namespace Financeiro.Entities
         public double Reversal { set; get; }
         public PaymentForm PaymentForm { set; get; }
         public String PaymentDate { set; get; }
-        public string Date { set; get; }
+        public String Date { set; get; }
         public Category Category { set; get; }
         public int NInstallment { set; get; }
         public int Installment { set; get; }
         public string Observations { set; get; }
-        public DateTime TransactionDateInsert { set; get; }
-        public DateTime TransactionDateUpdate { set; get; }
+        public String TransactionDateInsert { set; get; }
+        public String TransactionDateUpdate { set; get; }
     }
 }

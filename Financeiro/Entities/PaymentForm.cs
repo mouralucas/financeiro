@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Financeiro.Entities
 {
-    class PaymentForm
+    public class PaymentForm
     {
         public int PaymentForm_Id { set; get; }
         public String PaymentFormName { set; get; }

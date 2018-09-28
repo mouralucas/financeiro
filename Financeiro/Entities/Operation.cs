@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Financeiro.Entities
 {
-    class Operation
+    public class Operation
     {
         public int Operation_Id { set; get; }
         public String OperationName { set; get; }

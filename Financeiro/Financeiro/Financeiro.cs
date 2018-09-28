@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Financeiro.Form_Insert;
+using Financeiro.Form_Report;
 
 namespace Financeiro
 {
@@ -14,7 +15,7 @@ namespace Financeiro
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Insert_Transaction());
+            Application.Run(new Form_MonthReport());
         }
     }
 }

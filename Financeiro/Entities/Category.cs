@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Financeiro.Entities
 {
-    class Category
+    public class Category
     {
         public int Category_Id { set; get; }
         public int Id_Pai { set; get; }
