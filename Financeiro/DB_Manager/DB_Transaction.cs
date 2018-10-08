@@ -27,10 +27,10 @@ namespace Financeiro.DB_Manager
 
         private List<Transaction> TransactionsByMonth = new List<Transaction>();
 
-        public int CountRows(MySqlConnection conn)
+        public int CountRows(MySqlConnection Conn)
         {
             CountString = "SELECT COUNT(*) FROM transacoes";
-            MySqlCommand Command = new MySqlCommand(CountString, conn);
+            MySqlCommand Command = new MySqlCommand(CountString, Conn);
 
             Count = Convert.ToInt32(Command.ExecuteScalar());
 
@@ -49,29 +49,29 @@ namespace Financeiro.DB_Manager
 
             try
             {
-                MySqlCommand Cmd = new MySqlCommand(Insert, Conn);
+                MySqlCommand Command = new MySqlCommand(Insert, Conn);
 
-                Cmd.Parameters.Add("@operacao_id", MySqlDbType.Int32, 11);
-                Cmd.Parameters.Add("@valor", MySqlDbType.Double);
-                Cmd.Parameters.Add("@formaPagamento_id", MySqlDbType.Int32, 11);
-                Cmd.Parameters.Add("@dataPagamento", MySqlDbType.Date);
-                Cmd.Parameters.Add("@data", MySqlDbType.Date);
-                Cmd.Parameters.Add("@categoria_id", MySqlDbType.Int32, 11);
-                Cmd.Parameters.Add("@nParcela", MySqlDbType.Int32, 11);
-                Cmd.Parameters.Add("@totalParcelas", MySqlDbType.Int32, 11);
-                Cmd.Parameters.Add("@observacoes", MySqlDbType.MediumText);
+                Command.Parameters.Add("@operacao_id", MySqlDbType.Int32, 11);
+                Command.Parameters.Add("@valor", MySqlDbType.Double);
+                Command.Parameters.Add("@formaPagamento_id", MySqlDbType.Int32, 11);
+                Command.Parameters.Add("@dataPagamento", MySqlDbType.Date);
+                Command.Parameters.Add("@data", MySqlDbType.Date);
+                Command.Parameters.Add("@categoria_id", MySqlDbType.Int32, 11);
+                Command.Parameters.Add("@nParcela", MySqlDbType.Int32, 11);
+                Command.Parameters.Add("@totalParcelas", MySqlDbType.Int32, 11);
+                Command.Parameters.Add("@observacoes", MySqlDbType.MediumText);
 
-                Cmd.Parameters["@operacao_id"].Value = Operation_Id;
-                Cmd.Parameters["@valor"].Value = Value;
-                Cmd.Parameters["@formaPagamento_id"].Value = PaymentForm_Id;
-                Cmd.Parameters["@dataPagamento"].Value = PaymentDate;
-                Cmd.Parameters["@data"].Value = Date;
-                Cmd.Parameters["@categoria_id"].Value = Category_Id;
-                Cmd.Parameters["@nParcela"].Value = NInstallment;
-                Cmd.Parameters["@totalParcelas"].Value = Installment;
-                Cmd.Parameters["@observacoes"].Value = Obs;
+                Command.Parameters["@operacao_id"].Value = Operation_Id;
+                Command.Parameters["@valor"].Value = Value;
+                Command.Parameters["@formaPagamento_id"].Value = PaymentForm_Id;
+                Command.Parameters["@dataPagamento"].Value = PaymentDate;
+                Command.Parameters["@data"].Value = Date;
+                Command.Parameters["@categoria_id"].Value = Category_Id;
+                Command.Parameters["@nParcela"].Value = NInstallment;
+                Command.Parameters["@totalParcelas"].Value = Installment;
+                Command.Parameters["@observacoes"].Value = Obs;
 
-                if (Cmd.ExecuteNonQuery() > 0)
+                if (Command.ExecuteNonQuery() > 0)
                 {
                     DialogResult dr = MessageBox.Show("Transação Inserida com Sucesso!", "Sucesso!", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return true;
@@ -105,7 +105,7 @@ namespace Financeiro.DB_Manager
                 "nParcela = @nParcela, " +
                 "totalParcelas = @totalParcelas, " +
                 "observacoes = @observacoes, " +
-                "dataAtualizacao = current_timestamp(), " +
+                "dataAtualizacao = current_timestamp() " +
                 "WHERE transacao_id = " + Transaction_Id;
 
             try
@@ -171,51 +171,50 @@ namespace Financeiro.DB_Manager
                 + "         ON t.categoria_id = c.categoria_id "
                 + " WHERE "
                 + "	MONTH(t.dataPagamento) = " + Month
-                //+ "	MONTH(t.dataPagamento) = 06"
                 + " ORDER BY data";
 
-            MySqlCommand Cmd = new MySqlCommand(Retrieve, Conn);
-            MySqlDataReader DataRead = Cmd.ExecuteReader();
+            MySqlCommand Command = new MySqlCommand(Retrieve, Conn);
+            MySqlDataReader DataReader = Command.ExecuteReader();
 
             TransactionsByMonth.Clear();
 
-            while (DataRead.Read())
+            while (DataReader.Read())
             {
                 Operation = new Operation()
                 {
-                    Operation_Id = Convert.IsDBNull(DataRead["operacao_id"]) ? -1 : Convert.ToInt32(DataRead["operacao_id"]),
-                    OperationName = Convert.IsDBNull(DataRead["operacao"]) ? "" : DataRead["operacao"].ToString().Trim()
+                    Operation_Id = Convert.IsDBNull(DataReader["operacao_id"]) ? -1 : Convert.ToInt32(DataReader["operacao_id"]),
+                    OperationName = Convert.IsDBNull(DataReader["operacao"]) ? "" : DataReader["operacao"].ToString().Trim()
                 };
 
                 Category = new Category()
                 {
-                    Category_Id = Convert.IsDBNull(DataRead["categoria_id"]) ? -1 : Convert.ToInt32(DataRead["categoria_id"]),
-                    Id_Pai = Convert.IsDBNull(DataRead["id_pai"]) ? -1 : Convert.ToInt32(DataRead["id_pai"]),
-                    Description = Convert.IsDBNull(DataRead["descricao"]) ? "" : DataRead["descricao"].ToString().Trim(),
+                    Category_Id = Convert.IsDBNull(DataReader["categoria_id"]) ? -1 : Convert.ToInt32(DataReader["categoria_id"]),
+                    Id_Pai = Convert.IsDBNull(DataReader["id_pai"]) ? -1 : Convert.ToInt32(DataReader["id_pai"]),
+                    Description = Convert.IsDBNull(DataReader["descricao"]) ? "" : DataReader["descricao"].ToString().Trim(),
                 };
 
                 PaymentForm = new PaymentForm()
                 {
-                    PaymentForm_Id = Convert.IsDBNull(DataRead["formaPag_id"]) ? -1 : Convert.ToInt32(DataRead["formaPag_id"]),
-                    PaymentFormName = Convert.IsDBNull(DataRead["formaPag"]) ? "" : DataRead["formaPag"].ToString().Trim()
+                    PaymentForm_Id = Convert.IsDBNull(DataReader["formaPag_id"]) ? -1 : Convert.ToInt32(DataReader["formaPag_id"]),
+                    PaymentFormName = Convert.IsDBNull(DataReader["formaPag"]) ? "" : DataReader["formaPag"].ToString().Trim()
                 };
 
                 Transaction = new Transaction()
                 {
 
-                    Transaction_Id = Convert.IsDBNull(DataRead["transacao_id"]) ? -1 : Convert.ToInt32(DataRead["transacao_id"]),
+                    Transaction_Id = Convert.IsDBNull(DataReader["transacao_id"]) ? -1 : Convert.ToInt32(DataReader["transacao_id"]),
                     Operation = Operation,
-                    Value = Convert.IsDBNull(DataRead["valor"]) ? 0 : Convert.ToDouble(DataRead["valor"].ToString().Trim()),
-                    Reversal = Convert.IsDBNull(DataRead["estorno"]) ? 0 : Convert.ToDouble(DataRead["estorno"].ToString().Trim()),
+                    Value = Convert.IsDBNull(DataReader["valor"]) ? 0 : Convert.ToDouble(DataReader["valor"].ToString().Trim()),
+                    Reversal = Convert.IsDBNull(DataReader["estorno"]) ? 0 : Convert.ToDouble(DataReader["estorno"].ToString().Trim()),
                     PaymentForm = PaymentForm,
-                    PaymentDate = Convert.IsDBNull(DataRead["dataPagamento"]) ? "" : DataRead["dataPagamento"].ToString().Remove(10).Trim(),
-                    Date = Convert.IsDBNull(DataRead["data"]) ? "" : DataRead["data"].ToString().Remove(10).Trim(),
+                    PaymentDate = Convert.IsDBNull(DataReader["dataPagamento"]) ? "" : DataReader["dataPagamento"].ToString().Remove(10).Trim(),
+                    Date = Convert.IsDBNull(DataReader["data"]) ? "" : DataReader["data"].ToString().Remove(10).Trim(),
                     Category = Category,
 
-                    NInstallment = Convert.IsDBNull(DataRead["nParcela"]) ? 0 : Convert.ToInt16(DataRead["nParcela"]),
-                    Installment = Convert.IsDBNull(DataRead["totalParcelas"]) ? 0 : Convert.ToInt16(DataRead["totalParcelas"]),
+                    NInstallment = Convert.IsDBNull(DataReader["nParcela"]) ? 0 : Convert.ToInt16(DataReader["nParcela"]),
+                    Installment = Convert.IsDBNull(DataReader["totalParcelas"]) ? 0 : Convert.ToInt16(DataReader["totalParcelas"]),
 
-                    Observations = Convert.IsDBNull(DataRead["observacoes"]) ? "" : DataRead["observacoes"].ToString().Trim()
+                    Observations = Convert.IsDBNull(DataReader["observacoes"]) ? "" : DataReader["observacoes"].ToString().Trim()
 
                     
                     
@@ -224,7 +223,7 @@ namespace Financeiro.DB_Manager
                 TransactionsByMonth.Add(Transaction);
             }
 
-            DataRead.Close();
+            DataReader.Close();
 
             return TransactionsByMonth;
         }

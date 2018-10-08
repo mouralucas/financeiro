@@ -12,10 +12,11 @@ using Financeiro.DB_Manager;
 using Financeiro.Form_Report;
 using Financeiro.Entities;
 using Financeiro.Util;
+using Financeiro.Files;
 
 namespace Financeiro.Form_Insert
 {
-    public partial class Insert_Transaction : Form
+    public partial class Form_InsertTransaction : Form
     {
 
         DB_Connection Conn = new DB_Connection();
@@ -25,28 +26,28 @@ namespace Financeiro.Form_Insert
         DB_PaymentForm DB_PaymentForm = new DB_PaymentForm();
         DB_Transaction DB_Transaction = new DB_Transaction();
 
-               
-        /*** Information List ***/
+        /*** Information Lists ***/
         List<Operation> OperationList;
         List<Category> CategoryList;
         List<PaymentForm> PaymentFormList;
 
-        /*
-        O = insert
-        1 = update
-        */
+        /*** O = insert; 1 = update; ***/
         private int OperationType = 0;
         private int Transaction_Id;
-
+    
         private bool InsertOk = false;
         private bool UpdateOk = false;
 
         /*** Return Forms ***/
         private Form_MonthReport ReturnMonthReport = null;
 
+        /*** Report Forms ***/
+        Form_MonthReport MonthlyReportForm;
+        Form_InsertXml InsertXml;
+
 
         /*** Main Constructor ***/
-        public Insert_Transaction()
+        public Form_InsertTransaction()
         {
             InitializeComponent();
             Conn.OpenConn();
@@ -56,7 +57,7 @@ namespace Financeiro.Form_Insert
         }
 
         /*** Constructor for Update ***/
-        public Insert_Transaction(Form_MonthReport ReturnMonthReport, Transaction t)
+        public Form_InsertTransaction(Form_MonthReport ReturnMonthReport, Transaction t)
         {
             InitializeComponent();
             Conn.OpenConn();
@@ -86,7 +87,7 @@ namespace Financeiro.Form_Insert
 
         }
 
-    private void LoadData()
+        private void LoadData()
         {
             Box_NParcela.SelectedIndex = 0;
             Box_Parcelas.SelectedIndex = 0;
@@ -130,32 +131,34 @@ namespace Financeiro.Form_Insert
             {
                 MessageBox.Show("Você Deve Preencher o Valor!", "Atenção!", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            if (Convert.ToInt32(Box_NParcela.SelectedItem) > Convert.ToInt32(Box_Parcelas.SelectedItem))
+            else if (Convert.ToInt32(Box_NParcela.SelectedItem) > Convert.ToInt32(Box_Parcelas.SelectedItem))
             {
                 MessageBox.Show("O número da parcela não pode ser maior que a quantidade de parcelas!", "Atenção!", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
                 String dt_pag = "";
-                if((int)Box_PaymentForm.SelectedValue == 2)
+                if ((int)Box_PaymentForm.SelectedValue == 2)
                 {
                     int dia = Convert.ToInt32(DatePicker_Data.Text.Split('/')[2]);
                     int mes = Convert.ToInt32(DatePicker_Data.Text.Split('/')[1]);
                     int ano = Convert.ToInt32(DatePicker_Data.Text.Split('/')[0]);
 
+                    int parcela = Convert.ToInt32(Box_NParcela.SelectedItem.ToString());
+
                     if (dia < 13)
                     {
-                        dt_pag = ano.ToString() + "/" + Format.DateFormat(mes) + "/20";
+                        dt_pag = ano.ToString() + "/" + Util.DateTime.DateFormat(mes + parcela - 1) + "/20";
                     }
                     else
                     {
                         if (mes != 12)
                         {
-                            dt_pag = ano.ToString() + "/" + Format.DateFormat(mes + 1) + "/20";
+                            dt_pag = ano.ToString() + "/" + Util.DateTime.DateFormat(mes + parcela) + "/20";
                         }
                         else
                         {
-                            dt_pag = "20/" + (mes + 1) + "/" + (ano + 1).ToString();
+                            dt_pag = (ano + 1).ToString() + "/" + Util.DateTime.DateFormat(mes + parcela) + "/20";
                         }
                     }
                 }
@@ -164,8 +167,8 @@ namespace Financeiro.Form_Insert
                     dt_pag = DatePicker_Data.Text;
                 }
 
-                InsertOk = DB_Transaction.InsertTransaction((int)Box_Operacao.SelectedValue, Convert.ToDouble(Text_Valor.Text.Replace(",", ".")), 
-                    (int)Box_PaymentForm.SelectedValue, dt_pag, DatePicker_Data.Text, (int)Box_Category.SelectedValue, 
+                InsertOk = DB_Transaction.InsertTransaction((int)Box_Operacao.SelectedValue, Convert.ToDouble(Text_Valor.Text.Replace(",", ".")),
+                    (int)Box_PaymentForm.SelectedValue, dt_pag, DatePicker_Data.Text, (int)Box_Category.SelectedValue,
                     Convert.ToInt32(Box_NParcela.SelectedItem), Convert.ToInt32(Box_Parcelas.SelectedItem), Text_Obs.Text,
                     Conn.Connection);
 
@@ -179,10 +182,10 @@ namespace Financeiro.Form_Insert
                     Box_NParcela.SelectedIndex = 0;
                     Box_Parcelas.SelectedIndex = 0;
 
-                    Text_Valor.Text = "";
-                    Text_Obs.Text = "";
+                    Text_Valor.Text = string.Empty;
+                    Text_Obs.Text = string.Empty;
 
-                    DatePicker_Data.Value = DateTime.Now;
+                    DatePicker_Data.Value = System.DateTime.Now;
                 }
             }
         }
@@ -206,19 +209,21 @@ namespace Financeiro.Form_Insert
                     int mes = Convert.ToInt32(DatePicker_Data.Text.Split('/')[1]);
                     int ano = Convert.ToInt32(DatePicker_Data.Text.Split('/')[0]);
 
+                    int parcela = Convert.ToInt32(Box_NParcela.SelectedItem.ToString());
+
                     if (dia < 13)
                     {
-                        dt_pag = ano.ToString() + "/" + Format.DateFormat(mes) + "/20";
+                        dt_pag = ano.ToString() + "/" + Util.DateTime.DateFormat(mes + parcela - 1) + "/20";
                     }
                     else
                     {
                         if (mes != 12)
                         {
-                            dt_pag = ano.ToString() + "/" + Format.DateFormat(mes + 1) + "/20";
+                            dt_pag = ano.ToString() + "/" + Util.DateTime.DateFormat(mes + parcela) + "/20";
                         }
                         else
                         {
-                            dt_pag = "20/" + (mes + 1) + "/" + (ano + 1).ToString();
+                            dt_pag = (ano + 1).ToString() + "/" + Util.DateTime.DateFormat(mes + parcela) + "/20";
                         }
                     }
                 }
@@ -233,7 +238,7 @@ namespace Financeiro.Form_Insert
                    Conn.Connection);
             }
 
-           
+
         }
 
         /*** Combobox Operations ***/
@@ -291,9 +296,20 @@ namespace Financeiro.Form_Insert
             Box_PaymentForm.DisplayMember = "PaymentFormName";
         }
 
+        private void Button_Cancel_Click(object sender, EventArgs e)
+        {
+            DialogResult close = MessageBox.Show("Deseja mesmo sair? Informações não salvas serão perdidas!",
+                "Atenção!", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
+
+            if (close == DialogResult.OK)
+            {
+                this.Close();
+            }
+        }
+
         private void Insert_Transaction_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if(ReturnMonthReport != null)
+            if (ReturnMonthReport != null)
             {
                 ReturnMonthReport.LoadData();
             }
@@ -302,5 +318,15 @@ namespace Financeiro.Form_Insert
         }
 
 
+        /*** Menus ***/
+        private void DespesasPorMêsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MonthlyReportForm = new Form_MonthReport(this) { Visible = true };
+        }
+
+        private void XmlToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            InsertXml = new Form_InsertXml() { Visible = true };
+        }
     }
 }

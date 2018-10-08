@@ -38,6 +38,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -54,27 +55,54 @@
     <Compile Include="DB_Manager\DB_Operation.cs" />
     <Compile Include="DB_Manager\DB_PaymentForm.cs" />
     <Compile Include="DB_Manager\DB_Transaction.cs" />
+    <Compile Include="DB_Manager\DB_NotasModerninha.cs" />
     <Compile Include="Entities\Category.cs" />
     <Compile Include="Entities\Operation.cs" />
     <Compile Include="Entities\PaymentForm.cs" />
     <Compile Include="Entities\Transaction.cs" />
-    <Compile Include="Form_Insert\Insert_Transaction.cs">
+    <Compile Include="Entities\NotasModerninha.cs" />
+    <Compile Include="Files\XmlOperation.cs" />
+    <Compile Include="Form_Insert\Form_InsertTransaction.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form_Insert\Insert_Transaction.Designer.cs">
-      <DependentUpon>Insert_Transaction.cs</DependentUpon>
+    <Compile Include="Form_Insert\Form_InsertTransaction.Designer.cs">
+      <DependentUpon>Form_InsertTransaction.cs</DependentUpon>
     </Compile>
     <Compile Include="Financeiro\Financeiro.cs" />
+    <Compile Include="Form_Insert\Form_InsertXml.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_Insert\Form_InsertXml.Designer.cs">
+      <DependentUpon>Form_InsertXml.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form_Report\Form_MainReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_Report\Form_MainReport.Designer.cs">
+      <DependentUpon>Form_MainReport.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form_Report\Form_MonthReport.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form_Report\Form_MonthReport.Designer.cs">
       <DependentUpon>Form_MonthReport.cs</DependentUpon>
     </Compile>
+    <Compile Include="Dash\MonthlyDash.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dash\MonthlyDash.Designer.cs">
+      <DependentUpon>MonthlyDash.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Util\Format.cs" />
-    <EmbeddedResource Include="Form_Insert\Insert_Transaction.resx">
-      <DependentUpon>Insert_Transaction.cs</DependentUpon>
+    <Compile Include="Util\DateTime.cs" />
+    <EmbeddedResource Include="Form_Insert\Form_InsertTransaction.resx">
+      <DependentUpon>Form_InsertTransaction.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form_Insert\Form_InsertXml.resx">
+      <DependentUpon>Form_InsertXml.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form_Report\Form_MainReport.resx">
+      <DependentUpon>Form_MainReport.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form_Report\Form_MonthReport.resx">
       <DependentUpon>Form_MonthReport.cs</DependentUpon>

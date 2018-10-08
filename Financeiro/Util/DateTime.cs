@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Financeiro.Util
 {
-    class Format
+    class DateTime
     {
         public static String DateFormat(int Value)
         {
@@ -18,6 +18,20 @@ namespace Financeiro.Util
             }
 
             return sValue;
+        }
+
+        public static String InvertDate(String date)
+        {
+            String Day = date.Substring(0, 2);
+            String Month = date.Substring(3, 2);
+            String Year = date.Substring(6, 4);
+
+            String Time = date.Substring(11);
+
+            String g = Year + "/" + Month + "/" + Day + " " + Time;
+
+            return g;
+
         }
     }
 }

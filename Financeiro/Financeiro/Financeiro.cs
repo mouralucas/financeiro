@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using Financeiro.Form_Insert;
 using Financeiro.Form_Report;
 
+
 namespace Financeiro
 {
     static class Financeiro
@@ -15,7 +16,7 @@ namespace Financeiro
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form_MonthReport());
+            Application.Run(new Form_InsertTransaction());
         }
     }
 }
