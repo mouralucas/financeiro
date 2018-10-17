@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Calculation\Moderninha.cs" />
     <Compile Include="Connection\DB_Connection.cs" />
     <Compile Include="DB_Manager\DB_Category.cs" />
     <Compile Include="DB_Manager\DB_Operation.cs" />
@@ -62,18 +63,18 @@
     <Compile Include="Entities\Transaction.cs" />
     <Compile Include="Entities\NotasModerninha.cs" />
     <Compile Include="Files\XmlOperation.cs" />
-    <Compile Include="Form_Insert\Form_InsertTransaction.cs">
+    <Compile Include="Form_Insert\Form_Transaction.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form_Insert\Form_InsertTransaction.Designer.cs">
-      <DependentUpon>Form_InsertTransaction.cs</DependentUpon>
+    <Compile Include="Form_Insert\Form_Transaction.Designer.cs">
+      <DependentUpon>Form_Transaction.cs</DependentUpon>
     </Compile>
     <Compile Include="Financeiro\Financeiro.cs" />
-    <Compile Include="Form_Insert\Form_InsertXml.cs">
+    <Compile Include="Form_Insert\Form_Moderninha.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form_Insert\Form_InsertXml.Designer.cs">
-      <DependentUpon>Form_InsertXml.cs</DependentUpon>
+    <Compile Include="Form_Insert\Form_Moderninha.Designer.cs">
+      <DependentUpon>Form_Moderninha.cs</DependentUpon>
     </Compile>
     <Compile Include="Form_Report\Form_MainReport.cs">
       <SubType>Form</SubType>
@@ -95,11 +96,11 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\DateTime.cs" />
-    <EmbeddedResource Include="Form_Insert\Form_InsertTransaction.resx">
-      <DependentUpon>Form_InsertTransaction.cs</DependentUpon>
+    <EmbeddedResource Include="Form_Insert\Form_Transaction.resx">
+      <DependentUpon>Form_Transaction.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form_Insert\Form_InsertXml.resx">
-      <DependentUpon>Form_InsertXml.cs</DependentUpon>
+    <EmbeddedResource Include="Form_Insert\Form_Moderninha.resx">
+      <DependentUpon>Form_Moderninha.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form_Report\Form_MainReport.resx">
       <DependentUpon>Form_MainReport.cs</DependentUpon>

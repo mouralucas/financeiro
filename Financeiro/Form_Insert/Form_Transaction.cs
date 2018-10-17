@@ -16,7 +16,7 @@ using Financeiro.Files;
 
 namespace Financeiro.Form_Insert
 {
-    public partial class Form_InsertTransaction : Form
+    public partial class Form_Transaction : Form
     {
 
         DB_Connection Conn = new DB_Connection();
@@ -43,11 +43,11 @@ namespace Financeiro.Form_Insert
 
         /*** Report Forms ***/
         Form_MonthReport MonthlyReportForm;
-        Form_InsertXml InsertXml;
+        Form_Moderninha InsertXml;
 
 
         /*** Main Constructor ***/
-        public Form_InsertTransaction()
+        public Form_Transaction()
         {
             InitializeComponent();
             Conn.OpenConn();
@@ -57,7 +57,7 @@ namespace Financeiro.Form_Insert
         }
 
         /*** Constructor for Update ***/
-        public Form_InsertTransaction(Form_MonthReport ReturnMonthReport, Transaction t)
+        public Form_Transaction(Form_MonthReport ReturnMonthReport, Transaction t)
         {
             InitializeComponent();
             Conn.OpenConn();
@@ -71,6 +71,7 @@ namespace Financeiro.Form_Insert
 
             Box_Operacao.SelectedValue = t.Operation.Operation_Id;
             Box_Group.SelectedValue = t.Category.Id_Pai;
+            SetCategoryBox();
             Box_Category.SelectedValue = t.Category.Category_Id;
             Text_Valor.Text = string.Format("{0:0.00}", t.Value);
             Box_PaymentForm.SelectedValue = t.PaymentForm.PaymentForm_Id;
@@ -326,7 +327,7 @@ namespace Financeiro.Form_Insert
 
         private void XmlToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            InsertXml = new Form_InsertXml() { Visible = true };
+            InsertXml = new Form_Moderninha() { Visible = true };
         }
     }
 }

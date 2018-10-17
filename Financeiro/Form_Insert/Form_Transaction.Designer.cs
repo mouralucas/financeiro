@@ -1,6 +1,6 @@
 ﻿namespace Financeiro.Form_Insert
 {
-    partial class Form_InsertTransaction
+    partial class Form_Transaction
     {
         /// <summary>
         /// Required designer variable.
@@ -307,7 +307,7 @@
             // 
             this.xmlToolStripMenuItem.Name = "xmlToolStripMenuItem";
             this.xmlToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.xmlToolStripMenuItem.Text = "Xml";
+            this.xmlToolStripMenuItem.Text = "Moderninha";
             this.xmlToolStripMenuItem.Click += new System.EventHandler(this.XmlToolStripMenuItem_Click);
             // 
             // Form_InsertTransaction

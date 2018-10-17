@@ -5,16 +5,21 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
+using Financeiro.Entities;
 
 namespace Financeiro.DB_Manager
 {
     class DB_NotasModerninha
     {
         private String CountString;
-        private String ListAll;
+        private String Retrieve;
         private String Insert;
 
         private int Count = -1;
+
+        private NotasModerninha Notas;
+
+        private List<NotasModerninha> List_NotasModerninha = new List<NotasModerninha>();
 
 
         public int CountRows(MySqlConnection conn)
@@ -118,5 +123,51 @@ namespace Financeiro.DB_Manager
                 return false;
             }
         }
+
+        public List<NotasModerninha> ListAll(MySqlConnection Conn)
+        {
+            Retrieve = "Select * FROM notas_moderninha order by data_transacao";
+
+            MySqlCommand Command = new MySqlCommand(Retrieve, Conn);
+            MySqlDataReader DataReader = Command.ExecuteReader();
+
+            while (DataReader.Read())
+            {
+                Notas = new NotasModerninha()
+                {
+                    Transacao_Id = Convert.IsDBNull(DataReader["transacao_id"]) ? "" : DataReader["transacao_id"].ToString(),
+                    Cliente_Nome = Convert.IsDBNull(DataReader["cliente_nome"]) ? "" : DataReader["cliente_nome"].ToString(),
+                    Cliente_Email = Convert.IsDBNull(DataReader["cliente_email"]) ? "" : DataReader["cliente_email"].ToString(),
+                    Debito_Credito = Convert.IsDBNull(DataReader["debito_credito"]) ? "" : DataReader["debito_credito"].ToString(),
+                    Tipo_Transacao = Convert.IsDBNull(DataReader["tipo_transacao"]) ? "" : DataReader["tipo_transacao"].ToString(),
+                    Status = Convert.IsDBNull(DataReader["status"]) ? "" : DataReader["status"].ToString(),
+                    Tipo_Pagamento = Convert.IsDBNull(DataReader["tipo_pagamento"]) ? "" : DataReader["tipo_pagamento"].ToString(),
+                    Valor_Bruto = Convert.IsDBNull(DataReader["valor_bruto"]) ? -1 : Convert.ToDouble(DataReader["valor_bruto"]),
+                    Valor_Desconto = Convert.IsDBNull(DataReader["valor_desconto"]) ? -1 : Convert.ToDouble(DataReader["valor_desconto"]),
+                    Valor_Taxa = Convert.IsDBNull(DataReader["valor_taxa"]) ? -1 : Convert.ToDouble(DataReader["valor_taxa"]),
+                    Valor_Liquido = Convert.IsDBNull(DataReader["valor_liquido"]) ? -1 : Convert.ToDouble(DataReader["valor_liquido"]),
+                    Data_Transacao = Convert.IsDBNull(DataReader["data_transacao"]) ? "" : DataReader["data_transacao"].ToString().Remove(10).Trim(),
+                    Data_Compensacao = Convert.IsDBNull(DataReader["data_compensacao"]) ? "" : DataReader["data_compensacao"].ToString().Remove(10).Trim(),
+                    Parcelas = Convert.IsDBNull(DataReader["parcelas"]) ? -1 : Convert.ToInt32(DataReader["parcelas"]),
+                    Codigo_Usuario = Convert.IsDBNull(DataReader["codigo_usuario"]) ? "" : DataReader["codigo_usuario"].ToString(),
+                    Codigo_Venda = Convert.IsDBNull(DataReader["codigo_venda"]) ? "" : DataReader["codigo_venda"].ToString(),
+                    Serial_Leitor = Convert.IsDBNull(DataReader["serial_leitor"]) ? "" : DataReader["serial_leitor"].ToString(),
+                    Recebimentos = Convert.IsDBNull(DataReader["recebimentos"]) ? -1 : Convert.ToInt32(DataReader["recebimentos"]),
+                    Recebidos = Convert.IsDBNull(DataReader["recebidos"]) ? -1 : Convert.ToInt32(DataReader["recebidos"]),
+                    Valor_Recebido = Convert.IsDBNull(DataReader["valor_recebido"]) ? -1 : Convert.ToDouble(DataReader["valor_recebido"]),
+                    Valor_Tarifa_Intermediacao = Convert.IsDBNull(DataReader["valor_tarifa_intermediacao"]) ? -1 : Convert.ToDouble(DataReader["valor_tarifa_intermediacao"]),
+                    Valor_Taxa_Intermediacao = Convert.IsDBNull(DataReader["valor_taxa_intermediacao"]) ? -1 : Convert.ToDouble(DataReader["valor_taxa_intermediacao"]),
+                    Valor_Taxa_Parcelamento = Convert.IsDBNull(DataReader["valor_taxa_parcelamento"]) ? -1 : Convert.ToDouble(DataReader["valor_taxa_parcelamento"]),
+                    Valor_Tarifa_Boleto = Convert.IsDBNull(DataReader["valor_tarifa_boleto"]) ? -1 : Convert.ToDouble(DataReader["valor_tarifa_boleto"]),
+                    Bandeira_Cartao_Credito = Convert.IsDBNull(DataReader["bandeira_cartao_credito"]) ? "" : DataReader["bandeira_cartao_credito"].ToString(),
+                };
+
+                List_NotasModerninha.Add(Notas);
+            }
+
+            DataReader.Close();
+            return List_NotasModerninha;
+        }
     }
+
 }

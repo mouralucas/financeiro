@@ -28,11 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.table_despesasMes = new System.Windows.Forms.DataGridView();
-            this.label1 = new System.Windows.Forms.Label();
-            this.box_month = new System.Windows.Forms.ComboBox();
-            this.Table_ReceitasMes = new System.Windows.Forms.DataGridView();
-            this.button_edit = new System.Windows.Forms.Button();
+            this.Table_Despesas = new System.Windows.Forms.DataGridView();
             this.Column_Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column_Categoria = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column_Valor = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -41,6 +37,9 @@
             this.Column_data = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column_DataPag = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column_obs = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label1 = new System.Windows.Forms.Label();
+            this.Box_Month = new System.Windows.Forms.ComboBox();
+            this.Table_Receitas = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -48,14 +47,15 @@
             this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column_obss = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            ((System.ComponentModel.ISupportInitialize)(this.table_despesasMes)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Table_ReceitasMes)).BeginInit();
+            this.button_edit = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.Table_Despesas)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Table_Receitas)).BeginInit();
             this.SuspendLayout();
             // 
-            // table_despesasMes
+            // Table_Despesas
             // 
-            this.table_despesasMes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.table_despesasMes.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Table_Despesas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.Table_Despesas.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column_Id,
             this.Column_Categoria,
             this.Column_Valor,
@@ -64,56 +64,11 @@
             this.Column_data,
             this.Column_DataPag,
             this.Column_obs});
-            this.table_despesasMes.Location = new System.Drawing.Point(12, 33);
-            this.table_despesasMes.Name = "table_despesasMes";
-            this.table_despesasMes.Size = new System.Drawing.Size(928, 445);
-            this.table_despesasMes.TabIndex = 1;
-            this.table_despesasMes.Click += new System.EventHandler(this.Table_DespesasMes_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(245, 13);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Detalhamento das despesas e receitas do mes de:";
-            // 
-            // box_month
-            // 
-            this.box_month.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.box_month.FormattingEnabled = true;
-            this.box_month.Location = new System.Drawing.Point(263, 6);
-            this.box_month.Name = "box_month";
-            this.box_month.Size = new System.Drawing.Size(145, 21);
-            this.box_month.TabIndex = 4;
-            // 
-            // Table_ReceitasMes
-            // 
-            this.Table_ReceitasMes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.Table_ReceitasMes.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn1,
-            this.dataGridViewTextBoxColumn2,
-            this.dataGridViewTextBoxColumn3,
-            this.dataGridViewTextBoxColumn4,
-            this.dataGridViewTextBoxColumn5,
-            this.dataGridViewTextBoxColumn6,
-            this.Column_obss});
-            this.Table_ReceitasMes.Location = new System.Drawing.Point(12, 484);
-            this.Table_ReceitasMes.Name = "Table_ReceitasMes";
-            this.Table_ReceitasMes.Size = new System.Drawing.Size(928, 126);
-            this.Table_ReceitasMes.TabIndex = 5;
-            // 
-            // button_edit
-            // 
-            this.button_edit.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button_edit.Location = new System.Drawing.Point(946, 587);
-            this.button_edit.Name = "button_edit";
-            this.button_edit.Size = new System.Drawing.Size(181, 23);
-            this.button_edit.TabIndex = 15;
-            this.button_edit.Text = "Editar Registro Selecionado";
-            this.button_edit.UseVisualStyleBackColor = true;
-            this.button_edit.Click += new System.EventHandler(this.Button_Edit_Click);
+            this.Table_Despesas.Location = new System.Drawing.Point(12, 33);
+            this.Table_Despesas.Name = "Table_Despesas";
+            this.Table_Despesas.Size = new System.Drawing.Size(928, 445);
+            this.Table_Despesas.TabIndex = 1;
+            this.Table_Despesas.Click += new System.EventHandler(this.Table_DespesasMes_Click);
             // 
             // Column_Id
             // 
@@ -165,6 +120,55 @@
             this.Column_obs.Name = "Column_obs";
             this.Column_obs.Width = 160;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(245, 13);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Detalhamento das despesas e receitas do mes de:";
+            // 
+            // Box_Month
+            // 
+            this.Box_Month.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.Box_Month.FormattingEnabled = true;
+            this.Box_Month.Items.AddRange(new object[] {
+            "Janeiro",
+            "Fevereiro",
+            "Março",
+            "Abril",
+            "Maio",
+            "Junho",
+            "Julho",
+            "Agosto",
+            "Setembro",
+            "Outubro",
+            "Novembro",
+            "Dezembro"});
+            this.Box_Month.Location = new System.Drawing.Point(263, 6);
+            this.Box_Month.Name = "Box_Month";
+            this.Box_Month.Size = new System.Drawing.Size(145, 21);
+            this.Box_Month.TabIndex = 4;
+            this.Box_Month.SelectionChangeCommitted += new System.EventHandler(this.Box_Month_SelectionChangeCommitted);
+            // 
+            // Table_Receitas
+            // 
+            this.Table_Receitas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.Table_Receitas.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn1,
+            this.dataGridViewTextBoxColumn2,
+            this.dataGridViewTextBoxColumn3,
+            this.dataGridViewTextBoxColumn4,
+            this.dataGridViewTextBoxColumn5,
+            this.dataGridViewTextBoxColumn6,
+            this.Column_obss});
+            this.Table_Receitas.Location = new System.Drawing.Point(12, 484);
+            this.Table_Receitas.Name = "Table_Receitas";
+            this.Table_Receitas.Size = new System.Drawing.Size(928, 126);
+            this.Table_Receitas.TabIndex = 5;
+            this.Table_Receitas.Click += new System.EventHandler(this.Table_ReceitasMes_Click);
+            // 
             // dataGridViewTextBoxColumn1
             // 
             this.dataGridViewTextBoxColumn1.HeaderText = "Id";
@@ -207,23 +211,34 @@
             this.Column_obss.Name = "Column_obss";
             this.Column_obss.Width = 225;
             // 
+            // button_edit
+            // 
+            this.button_edit.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button_edit.Location = new System.Drawing.Point(946, 587);
+            this.button_edit.Name = "button_edit";
+            this.button_edit.Size = new System.Drawing.Size(181, 23);
+            this.button_edit.TabIndex = 15;
+            this.button_edit.Text = "Editar Registro Selecionado";
+            this.button_edit.UseVisualStyleBackColor = true;
+            this.button_edit.Click += new System.EventHandler(this.Button_Edit_Click);
+            // 
             // Form_MonthReport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1131, 623);
             this.Controls.Add(this.button_edit);
-            this.Controls.Add(this.Table_ReceitasMes);
-            this.Controls.Add(this.box_month);
+            this.Controls.Add(this.Table_Receitas);
+            this.Controls.Add(this.Box_Month);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.table_despesasMes);
+            this.Controls.Add(this.Table_Despesas);
             this.Name = "Form_MonthReport";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form_MonthReport";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form_MonthReport_FormClosing);
             this.Load += new System.EventHandler(this.Form_MonthReport_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.table_despesasMes)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Table_ReceitasMes)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Table_Despesas)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Table_Receitas)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -231,10 +246,10 @@
 
         #endregion
 
-        private System.Windows.Forms.DataGridView table_despesasMes;
+        private System.Windows.Forms.DataGridView Table_Despesas;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox box_month;
-        private System.Windows.Forms.DataGridView Table_ReceitasMes;
+        private System.Windows.Forms.ComboBox Box_Month;
+        private System.Windows.Forms.DataGridView Table_Receitas;
         private System.Windows.Forms.Button button_edit;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column_Id;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column_Categoria;

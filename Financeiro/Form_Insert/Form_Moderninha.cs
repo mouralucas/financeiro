@@ -11,23 +11,30 @@ using Financeiro.Entities;
 using Financeiro.Connection;
 using Financeiro.DB_Manager;
 using Financeiro.Files;
+using Financeiro.Calculation;
 
 namespace Financeiro.Form_Insert
 {
-    public partial class Form_InsertXml : Form
+    public partial class Form_Moderninha : Form
     {
         DB_Connection Conn = new DB_Connection();
         DB_NotasModerninha DB_NotasModerninha = new DB_NotasModerninha();
-        
+
+        Moderninha CalcModerninha = new Moderninha();
+
+        List<NotasModerninha> Notas;
 
         XmlOperation xml = new XmlOperation();
 
-        String path;
-
-        public Form_InsertXml()
+        public Form_Moderninha()
         {
             InitializeComponent();
             Conn.OpenConn();
+
+            Notas = DB_NotasModerninha.ListAll(Conn.Connection);
+            Label_Debitos.Text = "Total de débitos: " + CalcModerninha.Calc("Débito", Notas);
+            Label_Credito.Text = "Total de créditos: " + CalcModerninha.Calc("Crédito", Notas);
+
         }
 
         private void Button_SearchFile_Click(object sender, EventArgs e)
@@ -66,6 +73,9 @@ namespace Financeiro.Form_Insert
 
                     if (InsertOk)
                     {
+                        Table_XmlInserted.Rows.Clear();
+                        Table_XmlInserted.Rows.Add(nota.Cliente_Nome, nota.Debito_Credito, nota.Tipo_Transacao, nota.Status, nota.Tipo_Pagamento, nota.Valor_Bruto,
+                                nota.Valor_Taxa, nota.Valor_Liquido, nota.Data_Transacao, nota.Data_Compensacao, nota.Bandeira_Cartao_Credito);
                         NumberInserts++;
                     }
                 }
@@ -79,6 +89,15 @@ namespace Financeiro.Form_Insert
         private void Form_InsertXml_FormClosing(object sender, FormClosingEventArgs e)
         {
             Conn.CloseConn();
+        }
+
+        private void Button_ShowAll_Click(object sender, EventArgs e)
+        {
+            foreach(NotasModerninha Nota in Notas)
+            {
+                Table_XmlInserted.Rows.Add(Nota.Cliente_Nome, Nota.Debito_Credito, Nota.Tipo_Transacao, Nota.Status, Nota.Tipo_Pagamento, Nota.Valor_Bruto,
+                    Nota.Valor_Taxa, Nota.Valor_Liquido, Nota.Data_Transacao, Nota.Data_Compensacao, Nota.Bandeira_Cartao_Credito);
+            }
         }
     }
 }
