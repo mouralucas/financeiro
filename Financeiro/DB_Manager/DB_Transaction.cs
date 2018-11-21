@@ -40,12 +40,12 @@ namespace Financeiro.DB_Manager
         public bool InsertTransaction(int Operation_Id, double Value, int PaymentForm_Id, String PaymentDate,
             String Date, int Category_Id, int NInstallment, int Installment, String Obs, MySqlConnection Conn)
         {
-            Insert = "INSERT INTO transacoes " +
-                "       (operacao_id, valor, formaPagamento_id, dataPagamento, data, categoria_id, nParcela," +
-                "           totalParcelas, observacoes, dataInsercao) " +
-                "   VALUES " +
-                "       (@operacao_id, @valor, @formaPagamento_id, @dataPagamento, @data, @categoria_id, @nParcela," +
-                "           @totalParcelas, @observacoes, current_timestamp())";
+            Insert = "INSERT INTO transacoes "
+                + "       (operacao_id, valor, formaPagamento_id, dataPagamento, data, categoria_id, nParcela," 
+                + "           totalParcelas, observacoes, dataInsercao) " 
+                + "   VALUES " 
+                + "       (@operacao_id, @valor, @formaPagamento_id, @dataPagamento, @data, @categoria_id, @nParcela," 
+                + "           @totalParcelas, @observacoes, current_timestamp())";
 
             try
             {
@@ -157,9 +157,23 @@ namespace Financeiro.DB_Manager
         {
 
             Retrieve = "SELECT "
-                + "     o.*, c.*, fp.*, t.*"
+                + "         o.operacao_id       AS operacao_id,"
+                + "         o.operacao          AS operacao,"
+                + "         c.categoria_id      AS categoria_id,"
+                + "         c.id_pai            AS id_pai,"
+                + "         c.descricao         AS descricao,"
+                + "         fp.formaPag_id      AS formaPag_id,"
+                + "         fp.formaPag         AS formaPag,"
+                + "         t.transacao_id      AS transacao_id, "
+                + "         t.valor             AS valor, "
+                + "         t.estorno           AS estorno, "
+                + "         t.dataPagamento     AS dataPagamento, "
+                + "         t.data              AS data, "
+                + "         t.nParcela          AS nParcela, "
+                + "         t.totalParcelas     AS totalParcelas, "
+                + "         t.observacoes       AS observacoes "
                 + " FROM "
-                + "	    transacoes t "
+                + " transacoes t "
                 + " INNER JOIN  "
                 + "     operacao o "
                 + "         ON t.operacao_id = o.operacao_id "
@@ -216,8 +230,8 @@ namespace Financeiro.DB_Manager
 
                     Observations = Convert.IsDBNull(DataReader["observacoes"]) ? "" : DataReader["observacoes"].ToString().Trim()
 
-                    
-                    
+
+
                 };
 
                 TransactionsByMonth.Add(Transaction);

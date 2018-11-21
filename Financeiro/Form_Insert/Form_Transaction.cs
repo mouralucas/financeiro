@@ -34,9 +34,10 @@ namespace Financeiro.Form_Insert
         /*** O = insert; 1 = update; ***/
         private int OperationType = 0;
         private int Transaction_Id;
-    
+
         private bool InsertOk = false;
         private bool UpdateOk = false;
+        private bool Initializing = false;
 
         /*** Return Forms ***/
         private Form_MonthReport ReturnMonthReport = null;
@@ -52,6 +53,7 @@ namespace Financeiro.Form_Insert
             InitializeComponent();
             Conn.OpenConn();
             LoadData();
+            SetPaymentDate();
 
             OperationType = 0;
         }
@@ -59,6 +61,8 @@ namespace Financeiro.Form_Insert
         /*** Constructor for Update ***/
         public Form_Transaction(Form_MonthReport ReturnMonthReport, Transaction t)
         {
+            Initializing = true;
+
             InitializeComponent();
             Conn.OpenConn();
             LoadData();
@@ -69,18 +73,22 @@ namespace Financeiro.Form_Insert
             Button_Transaction.Text = "Atualizar";
             Button_Extorno.Visible = true;
 
+
             Box_Operacao.SelectedValue = t.Operation.Operation_Id;
+            SetGroupBox();
             Box_Group.SelectedValue = t.Category.Id_Pai;
             SetCategoryBox();
             Box_Category.SelectedValue = t.Category.Category_Id;
             Text_Valor.Text = string.Format("{0:0.00}", t.Value);
             Box_PaymentForm.SelectedValue = t.PaymentForm.PaymentForm_Id;
             DatePicker_Data.Text = t.Date;
-            Box_NParcela.SelectedIndex = t.NInstallment - 1;
-            Box_Parcelas.SelectedIndex = t.Installment - 1;
+            DatePicker_DataPagamento.Text = t.PaymentDate;
+            Box_NumeroParcela.SelectedIndex = t.NInstallment - 1;
+            Box_QuantidadeParcelas.SelectedIndex = t.Installment - 1;
             Text_Obs.Text = t.Observations;
             Transaction_Id = t.Transaction_Id;
 
+            Initializing = false;
         }
 
         private void Insert_Transaction_Load(object sender, EventArgs e)
@@ -90,18 +98,37 @@ namespace Financeiro.Form_Insert
 
         private void LoadData()
         {
-            Box_NParcela.SelectedIndex = 0;
-            Box_Parcelas.SelectedIndex = 0;
+            Box_NumeroParcela.SelectedIndex = 0;
+            Box_QuantidadeParcelas.SelectedIndex = 0;
 
             GetOperationInfo();
             GetCategoryInfo();
             GetPaymentFormInfo();
         }
 
+
+        /*** Comboboxes ***/
         private void Box_Operacao_SelectionChangeCommitted(object sender, EventArgs e)
         {
             SetGroupBox();
             SetCategoryBox();
+        }
+
+        private void Box_PaymentForm_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            SetPaymentDate();
+        }
+
+        private void Box_NumeroParcela_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+
+            if ((Box_NumeroParcela.SelectedIndex) > (Box_QuantidadeParcelas.SelectedIndex))
+            {
+                Box_NumeroParcela.SelectedIndex = Box_QuantidadeParcelas.SelectedIndex;
+            }
+
+
+            SetPaymentDate();
         }
 
         private void Box_Grupo_SelectionChangeCommitted(object sender, EventArgs e)
@@ -109,6 +136,7 @@ namespace Financeiro.Form_Insert
             SetCategoryBox();
         }
 
+        /*** Buttons ***/
         private void Button_Transaction_Click(object sender, EventArgs e)
         {
             if (OperationType == 0)
@@ -125,6 +153,16 @@ namespace Financeiro.Form_Insert
             }
         }
 
+        private void Button_Extorno_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void DatePicker_Data_ValueChanged(object sender, EventArgs e)
+        {
+            SetPaymentDate();
+        }
+
         /*** Transaction Operations ***/
         private void SaveTransaction()
         {
@@ -132,45 +170,15 @@ namespace Financeiro.Form_Insert
             {
                 MessageBox.Show("Você Deve Preencher o Valor!", "Atenção!", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            else if (Convert.ToInt32(Box_NParcela.SelectedItem) > Convert.ToInt32(Box_Parcelas.SelectedItem))
+            else if (Convert.ToInt32(Box_NumeroParcela.SelectedItem) > Convert.ToInt32(Box_QuantidadeParcelas.SelectedItem))
             {
                 MessageBox.Show("O número da parcela não pode ser maior que a quantidade de parcelas!", "Atenção!", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
-                String dt_pag = "";
-                if ((int)Box_PaymentForm.SelectedValue == 2)
-                {
-                    int dia = Convert.ToInt32(DatePicker_Data.Text.Split('/')[2]);
-                    int mes = Convert.ToInt32(DatePicker_Data.Text.Split('/')[1]);
-                    int ano = Convert.ToInt32(DatePicker_Data.Text.Split('/')[0]);
-
-                    int parcela = Convert.ToInt32(Box_NParcela.SelectedItem.ToString());
-
-                    if (dia < 13)
-                    {
-                        dt_pag = ano.ToString() + "/" + Util.DateTime.DateFormat(mes + parcela - 1) + "/20";
-                    }
-                    else
-                    {
-                        if (mes != 12)
-                        {
-                            dt_pag = ano.ToString() + "/" + Util.DateTime.DateFormat(mes + parcela) + "/20";
-                        }
-                        else
-                        {
-                            dt_pag = (ano + 1).ToString() + "/" + Util.DateTime.DateFormat(mes + parcela) + "/20";
-                        }
-                    }
-                }
-                else
-                {
-                    dt_pag = DatePicker_Data.Text;
-                }
-
                 InsertOk = DB_Transaction.InsertTransaction((int)Box_Operacao.SelectedValue, Convert.ToDouble(Text_Valor.Text.Replace(",", ".")),
-                    (int)Box_PaymentForm.SelectedValue, dt_pag, DatePicker_Data.Text, (int)Box_Category.SelectedValue,
-                    Convert.ToInt32(Box_NParcela.SelectedItem), Convert.ToInt32(Box_Parcelas.SelectedItem), Text_Obs.Text,
+                    (int)Box_PaymentForm.SelectedValue, DatePicker_DataPagamento.Text, DatePicker_Data.Text, (int)Box_Category.SelectedValue,
+                    Convert.ToInt32(Box_NumeroParcela.SelectedItem), Convert.ToInt32(Box_QuantidadeParcelas.SelectedItem), Text_Obs.Text,
                     Conn.Connection);
 
                 if (InsertOk)
@@ -180,8 +188,8 @@ namespace Financeiro.Form_Insert
                     SetCategoryBox();
                     SetPaymentFormBox();
 
-                    Box_NParcela.SelectedIndex = 0;
-                    Box_Parcelas.SelectedIndex = 0;
+                    Box_NumeroParcela.SelectedIndex = 0;
+                    Box_QuantidadeParcelas.SelectedIndex = 0;
 
                     Text_Valor.Text = string.Empty;
                     Text_Obs.Text = string.Empty;
@@ -197,52 +205,22 @@ namespace Financeiro.Form_Insert
             {
                 MessageBox.Show("Você Deve Preencher o Valor!", "Atenção!", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            if (Convert.ToInt32(Box_NParcela.SelectedItem) > Convert.ToInt32(Box_Parcelas.SelectedItem))
+            if (Convert.ToInt32(Box_NumeroParcela.SelectedItem) > Convert.ToInt32(Box_QuantidadeParcelas.SelectedItem))
             {
                 MessageBox.Show("O número da parcela não pode ser maior que a quantidade de parcelas!", "Atenção!", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
-                String dt_pag = "";
-                if ((int)Box_PaymentForm.SelectedValue == 2)
-                {
-                    int dia = Convert.ToInt32(DatePicker_Data.Text.Split('/')[2]);
-                    int mes = Convert.ToInt32(DatePicker_Data.Text.Split('/')[1]);
-                    int ano = Convert.ToInt32(DatePicker_Data.Text.Split('/')[0]);
-
-                    int parcela = Convert.ToInt32(Box_NParcela.SelectedItem.ToString());
-
-                    if (dia < 13)
-                    {
-                        dt_pag = ano.ToString() + "/" + Util.DateTime.DateFormat(mes + parcela - 1) + "/20";
-                    }
-                    else
-                    {
-                        if (mes != 12)
-                        {
-                            dt_pag = ano.ToString() + "/" + Util.DateTime.DateFormat(mes + parcela) + "/20";
-                        }
-                        else
-                        {
-                            dt_pag = (ano + 1).ToString() + "/" + Util.DateTime.DateFormat(mes + parcela) + "/20";
-                        }
-                    }
-                }
-                else
-                {
-                    dt_pag = DatePicker_Data.Text;
-                }
-
                 UpdateOk = DB_Transaction.UpdateTransaction(Transaction_Id, (int)Box_Operacao.SelectedValue, Convert.ToDouble(Text_Valor.Text.Replace(",", ".")), 0.0,
-                   (int)Box_PaymentForm.SelectedValue, dt_pag, DatePicker_Data.Text, (int)Box_Category.SelectedValue,
-                   Convert.ToInt32(Box_NParcela.SelectedItem), Convert.ToInt32(Box_Parcelas.SelectedItem), Text_Obs.Text,
+                   (int)Box_PaymentForm.SelectedValue, DatePicker_DataPagamento.Text, DatePicker_Data.Text, (int)Box_Category.SelectedValue,
+                   Convert.ToInt32(Box_NumeroParcela.SelectedItem), Convert.ToInt32(Box_QuantidadeParcelas.SelectedItem), Text_Obs.Text,
                    Conn.Connection);
             }
 
 
         }
 
-        /*** Combobox Operations ***/
+        /*** Combobox setups ***/
         public void GetOperationInfo()
         {
             OperationList = DB_Operacao.ListAll(Conn.Connection);
@@ -297,6 +275,62 @@ namespace Financeiro.Form_Insert
             Box_PaymentForm.DisplayMember = "PaymentFormName";
         }
 
+
+        /*** Datepickes setup ***/
+        private void SetPaymentDate()
+        {
+            if (!Initializing)
+            {
+                if ((int)Box_PaymentForm.SelectedValue == 2)
+                {
+                    int mesPagamento;
+                    int anoPagamento;
+
+                    int dia = Convert.ToInt32(DatePicker_Data.Text.Split('/')[2]);
+                    int mes = Convert.ToInt32(DatePicker_Data.Text.Split('/')[1]);
+                    int ano = Convert.ToInt32(DatePicker_Data.Text.Split('/')[0]);
+
+                    int parcela = Convert.ToInt32(Box_NumeroParcela.SelectedItem.ToString());
+
+                    if (dia < 13)
+                    {
+                        if ((mes + parcela - 1) > 12)
+                        {
+                            mesPagamento = (mes + parcela - 1) - 12;
+                            anoPagamento = ano + 1;
+                        }
+                        else
+                        {
+                            mesPagamento = (mes + parcela - 1);
+                            anoPagamento = ano;
+                        }
+
+                        DatePicker_DataPagamento.Text = anoPagamento.ToString() + "/" + Util.Format.FillString(mesPagamento) + "/20";
+                    }
+                    else
+                    {
+                        if ((mes + parcela) > 12)
+                        {
+                            mesPagamento = (mes + parcela) - 12;
+                            anoPagamento = ano + 1;
+                        }
+                        else
+                        {
+                            mesPagamento = (mes + parcela);
+                            anoPagamento = ano;
+                        }
+
+                        DatePicker_DataPagamento.Text = anoPagamento.ToString() + "/" + Util.Format.FillString(mesPagamento) + "/20";
+                    }
+                }
+                else
+                {
+                    DatePicker_DataPagamento.Text = DatePicker_Data.Text;
+                }
+            }
+        }
+
+        /*** Closing form operations ***/
         private void Button_Cancel_Click(object sender, EventArgs e)
         {
             DialogResult close = MessageBox.Show("Deseja mesmo sair? Informações não salvas serão perdidas!",
@@ -318,7 +352,6 @@ namespace Financeiro.Form_Insert
             Conn.CloseConn();
         }
 
-
         /*** Menus ***/
         private void DespesasPorMêsToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -329,5 +362,6 @@ namespace Financeiro.Form_Insert
         {
             InsertXml = new Form_Moderninha() { Visible = true };
         }
+
     }
 }

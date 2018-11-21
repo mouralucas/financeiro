@@ -63,6 +63,18 @@
     <Compile Include="Entities\Transaction.cs" />
     <Compile Include="Entities\NotasModerninha.cs" />
     <Compile Include="Files\XmlOperation.cs" />
+    <Compile Include="Form_Insert\Form_Boleto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_Insert\Form_Boleto.Designer.cs">
+      <DependentUpon>Form_Boleto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form_Insert\Form_Conta.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_Insert\Form_Conta.Designer.cs">
+      <DependentUpon>Form_Conta.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form_Insert\Form_Transaction.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -95,7 +107,12 @@
       <DependentUpon>MonthlyDash.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\Cryptography.cs" />
     <Compile Include="Util\DateTime.cs" />
+    <Compile Include="Util\Format.cs" />
+    <EmbeddedResource Include="Form_Insert\Form_Conta.resx">
+      <DependentUpon>Form_Conta.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form_Insert\Form_Transaction.resx">
       <DependentUpon>Form_Transaction.cs</DependentUpon>
     </EmbeddedResource>

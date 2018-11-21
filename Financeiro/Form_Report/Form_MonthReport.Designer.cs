@@ -48,6 +48,7 @@
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column_obss = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.button_edit = new System.Windows.Forms.Button();
+            this.Box_Payment = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.Table_Despesas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Table_Receitas)).BeginInit();
             this.SuspendLayout();
@@ -222,11 +223,21 @@
             this.button_edit.UseVisualStyleBackColor = true;
             this.button_edit.Click += new System.EventHandler(this.Button_Edit_Click);
             // 
+            // box_payment
+            // 
+            this.Box_Payment.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.Box_Payment.FormattingEnabled = true;
+            this.Box_Payment.Location = new System.Drawing.Point(414, 6);
+            this.Box_Payment.Name = "box_payment";
+            this.Box_Payment.Size = new System.Drawing.Size(121, 21);
+            this.Box_Payment.TabIndex = 16;
+            // 
             // Form_MonthReport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1131, 623);
+            this.Controls.Add(this.Box_Payment);
             this.Controls.Add(this.button_edit);
             this.Controls.Add(this.Table_Receitas);
             this.Controls.Add(this.Box_Month);
@@ -266,5 +277,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column_obss;
+        private System.Windows.Forms.ComboBox Box_Payment;
     }
 }

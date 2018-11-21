@@ -61,7 +61,7 @@ namespace Financeiro.Form_Insert
         {
            if(Text_FilePath != null)
             {
-                int NumberInserts = 0;
+
                 bool InsertOk = false;
                 foreach(NotasModerninha nota in xml.Reader(Text_FilePath.Text))
                 {
@@ -76,7 +76,6 @@ namespace Financeiro.Form_Insert
                         Table_XmlInserted.Rows.Clear();
                         Table_XmlInserted.Rows.Add(nota.Cliente_Nome, nota.Debito_Credito, nota.Tipo_Transacao, nota.Status, nota.Tipo_Pagamento, nota.Valor_Bruto,
                                 nota.Valor_Taxa, nota.Valor_Liquido, nota.Data_Transacao, nota.Data_Compensacao, nota.Bandeira_Cartao_Credito);
-                        NumberInserts++;
                     }
                 }
             }

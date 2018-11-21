@@ -19,9 +19,11 @@ namespace Financeiro.Form_Report
         /*** DataBase Connection ***/
         DB_Connection Conn = new DB_Connection();
         DB_Transaction DB_Transaction = new DB_Transaction();
+        DB_Category DB_Category = new DB_Category();
 
         /*** Lists ***/
-        private List<Transaction> MonthlyTransactions = new List<Transaction>();
+        private List<Transaction> List_MonthlyTransactions = new List<Transaction>();
+        private List<Category> List_Categories = new List<Category>();
 
         /*** Return Forms ***/
         private Form_Transaction InsertTransactionForm = null;
@@ -45,7 +47,7 @@ namespace Financeiro.Form_Report
             this.InsertTransactionForm = InsertTransactionForm;
         }
 
-        
+ 
         private void Form_MonthReport_Load(object sender, EventArgs e)
         {
             LoadData();
@@ -60,14 +62,18 @@ namespace Financeiro.Form_Report
 
             Box_Month.SelectedIndex = DateTime.Now.Month - 1;
 
-            MonthlyTransactions.Clear();
-            MonthlyTransactions = DB_Transaction.ListAll(DateTime.Now.Month, Conn.Connection);
+            List_MonthlyTransactions.Clear();
+            List_MonthlyTransactions = DB_Transaction.ListAll(DateTime.Now.Month, Conn.Connection);
+
+
             SetTableDespesa();
             SetTableReceita();
-
+            GetCategoryInfo();
+       
 
         }
 
+        /*** Tabeles ***/
         private void Table_DespesasMes_Click(object sender, EventArgs e)
         {
             Selected_Id = (int)(Table_Despesas.Rows[Table_Despesas.CurrentCell.RowIndex].Cells[0].Value);
@@ -78,14 +84,16 @@ namespace Financeiro.Form_Report
             Selected_Id = (int)(Table_Receitas.Rows[Table_Receitas.CurrentCell.RowIndex].Cells[0].Value);
         }
 
+        /*** Comboboxes ***/
         private void Box_Month_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            MonthlyTransactions.Clear();
-            MonthlyTransactions = DB_Transaction.ListAll(Box_Month.SelectedIndex+1, Conn.Connection);
+            List_MonthlyTransactions.Clear();
+            List_MonthlyTransactions = DB_Transaction.ListAll(Box_Month.SelectedIndex+1, Conn.Connection);
             SetTableDespesa();
             SetTableReceita();
         }
 
+        /*** Buttons ***/
         private void Button_Edit_Click(object sender, EventArgs e)
         {
             if(Selected_Id == -1)
@@ -94,7 +102,7 @@ namespace Financeiro.Form_Report
             }
             else
             {
-                Transaction t = MonthlyTransactions.Find(x => x.Transaction_Id == Selected_Id);
+                Transaction t = List_MonthlyTransactions.Find(x => x.Transaction_Id == Selected_Id);
                 Form_Transaction transaction = new Form_Transaction(this, t) { Visible = true };
                 
             }
@@ -116,7 +124,7 @@ namespace Financeiro.Form_Report
         {
             Table_Despesas.Rows.Clear();
             Table_Despesas.ClearSelection();
-            foreach (Transaction t in MonthlyTransactions.FindAll(x => x.Operation.Operation_Id == 1 || x.Operation.Operation_Id == 3))
+            foreach (Transaction t in List_MonthlyTransactions.FindAll(x => x.Operation.Operation_Id == 1 || x.Operation.Operation_Id == 3))
             {
                 Table_Despesas.Rows.Add(t.Transaction_Id, t.Category.Description,
                         "R$ " + string.Format("{0:0.00}", t.Value), "R$ " + string.Format("{0:0.00}", t.Reversal),
@@ -128,11 +136,27 @@ namespace Financeiro.Form_Report
         {
             Table_Receitas.Rows.Clear();
             Table_Receitas.ClearSelection();
-            foreach (Transaction t in MonthlyTransactions.FindAll(x => x.Operation.Operation_Id == 2))
+            foreach (Transaction t in List_MonthlyTransactions.FindAll(x => x.Operation.Operation_Id == 2))
             {
                 Table_Receitas.Rows.Add(t.Transaction_Id, t.Category.Description, "R$ " + string.Format("{0:0.00}", t.Value),
                     t.PaymentForm.PaymentFormName, t.Date, t.PaymentDate, t.Observations);
             }
+        }
+
+        /*** Comboboxes Setup ***/
+        public void GetCategoryInfo()
+        {
+            List_Categories = DB_Category.ListAll(Conn.Connection);
+            SetCategoryBox();
+        }
+
+        private void SetCategoryBox()
+        {
+            Box_Payment.DataSource = null;
+            Box_Payment.DataSource = List_Categories;
+            Box_Payment.DisplayMember = "Description";
+            Box_Payment.ValueMember = "Category_Id"; 
+
         }
     }
 }
