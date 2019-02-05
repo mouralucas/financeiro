@@ -153,7 +153,7 @@ namespace Financeiro.DB_Manager
 
         }
 
-        public List<Transaction> ListAll(int Month, MySqlConnection Conn)
+        public List<Transaction> ListAll(int Month, int Year, MySqlConnection Conn)
         {
 
             Retrieve = "SELECT "
@@ -183,8 +183,9 @@ namespace Financeiro.DB_Manager
                 + " INNER JOIN "
                 + "	    categoria c "
                 + "         ON t.categoria_id = c.categoria_id "
-                + " WHERE "
-                + "	MONTH(t.dataPagamento) = " + Month
+                + " WHERE 1=1"
+                + "	AND MONTH(t.dataPagamento) = " + Month
+                + " AND YEAR(t.dataPagamento) = " + Year
                 + " ORDER BY data";
 
             MySqlCommand Command = new MySqlCommand(Retrieve, Conn);

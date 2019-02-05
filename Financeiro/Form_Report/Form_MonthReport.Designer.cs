@@ -48,7 +48,9 @@
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column_obss = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.button_edit = new System.Windows.Forms.Button();
+            this.Box_Category = new System.Windows.Forms.ComboBox();
             this.Box_Payment = new System.Windows.Forms.ComboBox();
+            this.Box_Year = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.Table_Despesas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Table_Receitas)).BeginInit();
             this.SuspendLayout();
@@ -223,21 +225,46 @@
             this.button_edit.UseVisualStyleBackColor = true;
             this.button_edit.Click += new System.EventHandler(this.Button_Edit_Click);
             // 
-            // box_payment
+            // Box_Category
+            // 
+            this.Box_Category.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.Box_Category.FormattingEnabled = true;
+            this.Box_Category.Location = new System.Drawing.Point(499, 6);
+            this.Box_Category.Name = "Box_Category";
+            this.Box_Category.Size = new System.Drawing.Size(121, 21);
+            this.Box_Category.TabIndex = 16;
+            // 
+            // Box_Payment
             // 
             this.Box_Payment.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.Box_Payment.FormattingEnabled = true;
-            this.Box_Payment.Location = new System.Drawing.Point(414, 6);
-            this.Box_Payment.Name = "box_payment";
-            this.Box_Payment.Size = new System.Drawing.Size(121, 21);
-            this.Box_Payment.TabIndex = 16;
+            this.Box_Payment.Location = new System.Drawing.Point(626, 6);
+            this.Box_Payment.Name = "Box_Payment";
+            this.Box_Payment.Size = new System.Drawing.Size(132, 21);
+            this.Box_Payment.TabIndex = 17;
+            this.Box_Payment.SelectionChangeCommitted += new System.EventHandler(this.Box_Payment_SelectionChangeCommitted);
+            // 
+            // Box_Year
+            // 
+            this.Box_Year.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.Box_Year.FormattingEnabled = true;
+            this.Box_Year.Items.AddRange(new object[] {
+            "2019",
+            "2018"});
+            this.Box_Year.Location = new System.Drawing.Point(414, 6);
+            this.Box_Year.Name = "Box_Year";
+            this.Box_Year.Size = new System.Drawing.Size(79, 21);
+            this.Box_Year.TabIndex = 18;
+            this.Box_Year.SelectionChangeCommitted += new System.EventHandler(this.Box_Year_SelectionChangeCommitted);
             // 
             // Form_MonthReport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1131, 623);
+            this.Controls.Add(this.Box_Year);
             this.Controls.Add(this.Box_Payment);
+            this.Controls.Add(this.Box_Category);
             this.Controls.Add(this.button_edit);
             this.Controls.Add(this.Table_Receitas);
             this.Controls.Add(this.Box_Month);
@@ -277,6 +304,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column_obss;
+        private System.Windows.Forms.ComboBox Box_Category;
         private System.Windows.Forms.ComboBox Box_Payment;
+        private System.Windows.Forms.ComboBox Box_Year;
     }
 }

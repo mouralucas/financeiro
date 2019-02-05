@@ -18,7 +18,7 @@ namespace Financeiro.DB_Manager
 
         private PaymentForm PaymentForm;
 
-        private List<PaymentForm> PaymentFormList = new List<PaymentForm>();
+        private List<PaymentForm> List_Payment = new List<PaymentForm>();
 
         public int CountRows(MySqlConnection conn)
         {
@@ -37,13 +37,13 @@ namespace Financeiro.DB_Manager
 
             MySqlCommand Cmd = new MySqlCommand(Retrieve, Conn);
             SetPaymentFormData(Cmd);
-            return PaymentFormList;
+            return List_Payment;
         }
 
         private void SetPaymentFormData(MySqlCommand Cmd)
         {
             MySqlDataReader DataRead = Cmd.ExecuteReader();
-            PaymentFormList.Clear();
+            List_Payment.Clear();
 
             while (DataRead.Read())
             {
@@ -54,7 +54,7 @@ namespace Financeiro.DB_Manager
                     ShowOnDash = Convert.IsDBNull(DataRead["showOnDash"]) ? -1 : Convert.ToInt32(DataRead["showOnDash"])
                 };
 
-                PaymentFormList.Add(PaymentForm);
+                List_Payment.Add(PaymentForm);
             }
 
             DataRead.Close();

@@ -22,7 +22,6 @@ namespace Financeiro.Calculation
                 }
             }
 
-
             return Result;
         }
     }

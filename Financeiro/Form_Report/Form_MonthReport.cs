@@ -20,10 +20,12 @@ namespace Financeiro.Form_Report
         DB_Connection Conn = new DB_Connection();
         DB_Transaction DB_Transaction = new DB_Transaction();
         DB_Category DB_Category = new DB_Category();
+        DB_PaymentForm DB_PaymentForm = new DB_PaymentForm();
 
         /*** Lists ***/
         private List<Transaction> List_MonthlyTransactions = new List<Transaction>();
         private List<Category> List_Categories = new List<Category>();
+        private List<PaymentForm> List_Payment = new List<PaymentForm>();
 
         /*** Return Forms ***/
         private Form_Transaction InsertTransactionForm = null;
@@ -63,13 +65,12 @@ namespace Financeiro.Form_Report
             Box_Month.SelectedIndex = DateTime.Now.Month - 1;
 
             List_MonthlyTransactions.Clear();
-            List_MonthlyTransactions = DB_Transaction.ListAll(DateTime.Now.Month, Conn.Connection);
-
+            List_MonthlyTransactions = DB_Transaction.ListAll(DateTime.Now.Month, DateTime.Now.Year, Conn.Connection);
 
             SetTableDespesa();
             SetTableReceita();
             GetCategoryInfo();
-       
+            GetPaymentInfo();
 
         }
 
@@ -88,9 +89,22 @@ namespace Financeiro.Form_Report
         private void Box_Month_SelectionChangeCommitted(object sender, EventArgs e)
         {
             List_MonthlyTransactions.Clear();
-            List_MonthlyTransactions = DB_Transaction.ListAll(Box_Month.SelectedIndex+1, Conn.Connection);
+            List_MonthlyTransactions = DB_Transaction.ListAll(Box_Month.SelectedIndex+1, Convert.ToInt32(Box_Year.SelectedItem), Conn.Connection);
             SetTableDespesa();
             SetTableReceita();
+        }
+
+        private void Box_Year_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            List_MonthlyTransactions.Clear();
+            List_MonthlyTransactions = DB_Transaction.ListAll(Box_Month.SelectedIndex + 1, Convert.ToInt32(Box_Year.SelectedItem), Conn.Connection);
+            SetTableDespesa();
+            SetTableReceita();
+        }
+
+        private void Box_Payment_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+
         }
 
         /*** Buttons ***/
@@ -152,11 +166,25 @@ namespace Financeiro.Form_Report
 
         private void SetCategoryBox()
         {
-            Box_Payment.DataSource = null;
-            Box_Payment.DataSource = List_Categories;
-            Box_Payment.DisplayMember = "Description";
-            Box_Payment.ValueMember = "Category_Id"; 
+            Box_Category.DataSource = null;
+            Box_Category.DataSource = List_Categories;
+            Box_Category.DisplayMember = "Description";
+            Box_Category.ValueMember = "Category_Id"; 
 
+        }
+
+        public void GetPaymentInfo()
+        {
+            List_Payment = DB_PaymentForm.ListAll(Conn.Connection);
+            SetPaymentBox();
+        }
+
+        private void SetPaymentBox()
+        {
+            Box_Payment.DataSource = null;
+            Box_Payment.DataSource = List_Payment;
+            Box_Payment.DisplayMember = "PaymentFormName";
+            Box_Payment.ValueMember = "PaymentForm_Id";
         }
     }
 }
