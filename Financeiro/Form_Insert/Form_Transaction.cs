@@ -176,7 +176,7 @@ namespace Financeiro.Form_Insert
             }
             else
             {
-                InsertOk = DB_Transaction.InsertTransaction((int)Box_Operacao.SelectedValue, Convert.ToDouble(Text_Valor.Text.Replace(",", ".")),
+                InsertOk = DB_Transaction.InsertTransaction((int)Box_Operacao.SelectedValue, Convert.ToDouble(Text_Valor.Text.Replace(",", "."), System.Globalization.CultureInfo.InvariantCulture),
                     (int)Box_PaymentForm.SelectedValue, DatePicker_DataPagamento.Text, DatePicker_Data.Text, (int)Box_Category.SelectedValue,
                     Convert.ToInt32(Box_NumeroParcela.SelectedItem), Convert.ToInt32(Box_QuantidadeParcelas.SelectedItem), Text_Obs.Text,
                     Conn.Connection);
@@ -211,10 +211,11 @@ namespace Financeiro.Form_Insert
             }
             else
             {
-                UpdateOk = DB_Transaction.UpdateTransaction(Transaction_Id, (int)Box_Operacao.SelectedValue, Convert.ToDouble(Text_Valor.Text.Replace(",", ".")), 0.0,
-                   (int)Box_PaymentForm.SelectedValue, DatePicker_DataPagamento.Text, DatePicker_Data.Text, (int)Box_Category.SelectedValue,
-                   Convert.ToInt32(Box_NumeroParcela.SelectedItem), Convert.ToInt32(Box_QuantidadeParcelas.SelectedItem), Text_Obs.Text,
-                   Conn.Connection);
+                UpdateOk = DB_Transaction.UpdateTransaction(Transaction_Id, (int)Box_Operacao.SelectedValue, 
+                    Convert.ToDouble(Text_Valor.Text.Replace(",", "."), System.Globalization.CultureInfo.InvariantCulture), 0.0,
+                    (int)Box_PaymentForm.SelectedValue, DatePicker_DataPagamento.Text, DatePicker_Data.Text, (int)Box_Category.SelectedValue,
+                    Convert.ToInt32(Box_NumeroParcela.SelectedItem), Convert.ToInt32(Box_QuantidadeParcelas.SelectedItem), Text_Obs.Text,
+                    Conn.Connection);
             }
 
 
@@ -321,6 +322,48 @@ namespace Financeiro.Form_Insert
                         }
 
                         DatePicker_DataPagamento.Text = anoPagamento.ToString() + "/" + Util.Format.FillString(mesPagamento) + "/20";
+                    }
+                } 
+                else if ((int)Box_PaymentForm.SelectedValue == 5)
+                {
+                    int mesPagamento;
+                    int anoPagamento;
+
+                    int dia = Convert.ToInt32(DatePicker_Data.Text.Split('/')[2]);
+                    int mes = Convert.ToInt32(DatePicker_Data.Text.Split('/')[1]);
+                    int ano = Convert.ToInt32(DatePicker_Data.Text.Split('/')[0]);
+
+                    int parcela = Convert.ToInt32(Box_NumeroParcela.SelectedItem.ToString());
+
+                    if (dia < 29)
+                    {
+                        if ((mes + parcela) > 12)
+                        {
+                            mesPagamento = (mes + parcela) - 12;
+                            anoPagamento = ano + 1;
+                        }
+                        else
+                        {
+                            mesPagamento = (mes + parcela);
+                            anoPagamento = ano;
+                        }
+
+                        DatePicker_DataPagamento.Text = anoPagamento.ToString() + "/" + Util.Format.FillString(mesPagamento) + "/10";
+                    }
+                    else
+                    {
+                        if ((mes + parcela) > 12)
+                        {
+                            mesPagamento = (mes + parcela) - 11;
+                            anoPagamento = ano + 1;
+                        }
+                        else
+                        {
+                            mesPagamento = (mes + parcela);
+                            anoPagamento = ano;
+                        }
+
+                        DatePicker_DataPagamento.Text = anoPagamento.ToString() + "/" + Util.Format.FillString(mesPagamento) + "/10";
                     }
                 }
                 else

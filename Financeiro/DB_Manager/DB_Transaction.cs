@@ -186,7 +186,7 @@ namespace Financeiro.DB_Manager
                 + " WHERE 1=1"
                 + "	AND MONTH(t.dataPagamento) = " + Month
                 + " AND YEAR(t.dataPagamento) = " + Year
-                + " ORDER BY data";
+                + " ORDER BY data desc, categoria_id";
 
             MySqlCommand Command = new MySqlCommand(Retrieve, Conn);
             MySqlDataReader DataReader = Command.ExecuteReader();
@@ -230,9 +230,6 @@ namespace Financeiro.DB_Manager
                     Installment = Convert.IsDBNull(DataReader["totalParcelas"]) ? 0 : Convert.ToInt16(DataReader["totalParcelas"]),
 
                     Observations = Convert.IsDBNull(DataReader["observacoes"]) ? "" : DataReader["observacoes"].ToString().Trim()
-
-
-
                 };
 
                 TransactionsByMonth.Add(Transaction);

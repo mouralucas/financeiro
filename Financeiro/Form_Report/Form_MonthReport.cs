@@ -63,12 +63,13 @@ namespace Financeiro.Form_Report
             Selected_Id = -1;
 
             Box_Month.SelectedIndex = DateTime.Now.Month - 1;
+            Box_Year.SelectedItem = Convert.ToString(DateTime.Now.Year);
 
             List_MonthlyTransactions.Clear();
             List_MonthlyTransactions = DB_Transaction.ListAll(DateTime.Now.Month, DateTime.Now.Year, Conn.Connection);
 
-            SetTableDespesa();
-            SetTableReceita();
+            SetTableDespesa(List_MonthlyTransactions);
+            SetTableReceita(List_MonthlyTransactions);
             GetCategoryInfo();
             GetPaymentInfo();
 
@@ -90,21 +91,23 @@ namespace Financeiro.Form_Report
         {
             List_MonthlyTransactions.Clear();
             List_MonthlyTransactions = DB_Transaction.ListAll(Box_Month.SelectedIndex+1, Convert.ToInt32(Box_Year.SelectedItem), Conn.Connection);
-            SetTableDespesa();
-            SetTableReceita();
+            SetTableDespesa(List_MonthlyTransactions);
+            SetTableReceita(List_MonthlyTransactions);
         }
 
         private void Box_Year_SelectionChangeCommitted(object sender, EventArgs e)
         {
             List_MonthlyTransactions.Clear();
             List_MonthlyTransactions = DB_Transaction.ListAll(Box_Month.SelectedIndex + 1, Convert.ToInt32(Box_Year.SelectedItem), Conn.Connection);
-            SetTableDespesa();
-            SetTableReceita();
+            SetTableDespesa(List_MonthlyTransactions);
+            SetTableReceita(List_MonthlyTransactions);
         }
 
         private void Box_Payment_SelectionChangeCommitted(object sender, EventArgs e)
         {
-
+            List_MonthlyTransactions = DB_Transaction.ListAll(Box_Month.SelectedIndex + 1, Convert.ToInt32(Box_Year.SelectedItem), Conn.Connection);
+            SetTableDespesa(List_MonthlyTransactions);
+            SetTableReceita(List_MonthlyTransactions);
         }
 
         /*** Buttons ***/
@@ -134,11 +137,11 @@ namespace Financeiro.Form_Report
         }
 
         /*** Table operations ***/
-        private void SetTableDespesa()
+        private void SetTableDespesa(List<Transaction> list)
         {
             Table_Despesas.Rows.Clear();
             Table_Despesas.ClearSelection();
-            foreach (Transaction t in List_MonthlyTransactions.FindAll(x => x.Operation.Operation_Id == 1 || x.Operation.Operation_Id == 3))
+            foreach (Transaction t in list.FindAll(x => x.Operation.Operation_Id == 1 || x.Operation.Operation_Id == 3))
             {
                 Table_Despesas.Rows.Add(t.Transaction_Id, t.Category.Description,
                         "R$ " + string.Format("{0:0.00}", t.Value), "R$ " + string.Format("{0:0.00}", t.Reversal),
@@ -146,11 +149,11 @@ namespace Financeiro.Form_Report
             }
         }
 
-        private void SetTableReceita()
+        private void SetTableReceita(List<Transaction> list)
         {
             Table_Receitas.Rows.Clear();
             Table_Receitas.ClearSelection();
-            foreach (Transaction t in List_MonthlyTransactions.FindAll(x => x.Operation.Operation_Id == 2))
+            foreach (Transaction t in list.FindAll(x => x.Operation.Operation_Id == 2))
             {
                 Table_Receitas.Rows.Add(t.Transaction_Id, t.Category.Description, "R$ " + string.Format("{0:0.00}", t.Value),
                     t.PaymentForm.PaymentFormName, t.Date, t.PaymentDate, t.Observations);

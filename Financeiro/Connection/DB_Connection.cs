@@ -25,8 +25,8 @@ namespace Financeiro.Connection
         {
             server = "localhost";
             database = "financeiro_v2";
-            user = "financeiro";
-            password = "rachel";
+            user = "root";
+            password = "ezt710sh";
 
             //set the connection
             Connection = new MySqlConnection("Server=" + server + ";" + "Database=" + database + ";"
